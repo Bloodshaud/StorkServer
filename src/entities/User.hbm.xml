@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    @author Johannes
+    Hibernate mapping for User class
+    Don't change without consulting author(s)
+-->
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="entities">
+    <class name="User" table="users">
+        <id name="id" column="user_id">
+            <generator class="native"/>
+        </id>
+        <property name="picture" column="picture"/>
+        <property name="mail" column="mail"/>
+        <property name="location" column="location"/>
+    </class>
+</hibernate-mapping>
