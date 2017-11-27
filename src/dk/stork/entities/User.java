@@ -9,6 +9,7 @@ package dk.stork.entities;
  */
 public class User extends ModelObject {
     private int id;
+    private String name;
     private String picture;
     private String mail;
     private String password;
@@ -24,6 +25,14 @@ public class User extends ModelObject {
         this.mail = mail;
         this.password = password;
         this.location = location;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getId() {
