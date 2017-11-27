@@ -7,7 +7,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<hibernate-mapping package="entities">
+<hibernate-mapping package="dk.stork.entities">
     <class name="User" table="users">
         <id name="id" column="user_id">
             <generator class="native"/>

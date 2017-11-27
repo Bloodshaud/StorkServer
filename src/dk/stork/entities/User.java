@@ -1,4 +1,4 @@
-package entities;
+package dk.stork.entities;
 
 /**
  * @author Johannes
