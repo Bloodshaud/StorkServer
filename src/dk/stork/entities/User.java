@@ -7,7 +7,7 @@ package dk.stork.entities;
  * <p>
  * If problems arise ask author(s) - hibernate is very strict
  */
-public class User {
+public class User extends ModelObject {
     private int id;
     private String picture;
     private String mail;
