@@ -1,4 +1,4 @@
-<%@ page import="dk.stork.entities.ModelFactory" %>
+<%@ page import="dk.stork.entities.EntityFactory" %>
 <%@ page import="dk.stork.entities.User" %>
 <%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
@@ -11,7 +11,7 @@
 <%
     StringBuilder sb = new StringBuilder();
     sb.append("<tr> <td>1</td><td>2</td><td>3</td> </tr>");
-    List<User> users = ModelFactory.getModelObjects(User.class);
+    List<User> users = EntityFactory.getModelObjects(User.class);
     for (User user : users) {
         sb.append("<tr><td>")
                 .append(user.getId())
@@ -21,7 +21,7 @@
                 .append(user.getMail())
                 .append("</td></tr>");
     }
-    ModelFactory.destroy();
+    EntityFactory.destroy();
     String body = sb.toString();
 %>
 <html>

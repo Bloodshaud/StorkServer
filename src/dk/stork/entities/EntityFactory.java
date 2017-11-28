@@ -8,7 +8,10 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import java.util.List;
 
-public class ModelFactory {
+/**
+ * @author Johannes Ernstsen
+ */
+public class EntityFactory {
     private static Session session;
 
 
@@ -30,7 +33,7 @@ public class ModelFactory {
         return result;
     }
 
-    public static <T extends ModelObject> List<T> getModelObjects(Class<T> clazz) {
+    public static <T extends EntityObject> List<T> getModelObjects(Class<T> clazz) {
         if (session == null || !session.isOpen()) {
             initializeSession();
         }
