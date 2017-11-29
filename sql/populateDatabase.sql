@@ -4,7 +4,7 @@
 --
 
 -- DML
-INSERT INTO Users (id, name, mail, password) VALUES
+INSERT INTO users (id, name, mail, password) VALUES
   (1, 'Johannes', 'Ernstsen.johannes@gmail.com', 'kodeord1'),
   (2, 'Morten', 'mortens.email.som.jeg.ikke.kan@gmail.com', 'kodeord2'),
   (3, 'Mathias', 'Mathias.mail.som.jeg.heller.ikke.lige.kan@gmail.com', 'kodeord3');

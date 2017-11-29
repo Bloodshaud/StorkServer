@@ -8,8 +8,8 @@ DROP DATABASE IF EXISTS Stork;
 CREATE DATABASE Stork;
 USE Stork;
 
-DROP TABLE IF EXISTS Users;
-CREATE TABLE Users (
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
   id        INT(11) PRIMARY KEY AUTO_INCREMENT,
   name      VARCHAR(255) NOT NULL,
   picture   VARCHAR(255),
@@ -20,14 +20,14 @@ CREATE TABLE Users (
   sessionId VARCHAR(255)
 );
 
-DROP TABLE IF EXISTS Groups;
-CREATE TABLE Groups (
+DROP TABLE IF EXISTS groups;
+CREATE TABLE groups (
   id   INT(11) PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255)
 );
 
-DROP TABLE IF EXISTS Users_Groups;
-CREATE TABLE Users_Groups (
+DROP TABLE IF EXISTS users_groups;
+CREATE TABLE users_groups (
   userId  INT(11),
   groupId INT(11)
 );
