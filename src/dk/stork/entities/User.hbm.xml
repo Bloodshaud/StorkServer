@@ -17,6 +17,7 @@
         <property name="mail" column="mail"/>
         <property name="password" column="password"/>
         <property name="location" column="location"/>
+        <property name="sessionId" column="sessionId"/>
 
         <set name="groups" table="users_groups" inverse="true" lazy="true" fetch="select">
             <key>

@@ -10,19 +10,20 @@ USE Stork;
 
 DROP TABLE IF EXISTS Users;
 CREATE TABLE Users (
-  id       INT(11) PRIMARY KEY AUTO_INCREMENT,
-  name     VARCHAR(255) NOT NULL,
-  picture  VARCHAR(255),
-  mail     VARCHAR(255) NOT NULL,
-  password VARCHAR(255) NOT NULL,
-  location VARCHAR(255),
-  friends  VARCHAR(255)
+  id        INT(11) PRIMARY KEY AUTO_INCREMENT,
+  name      VARCHAR(255) NOT NULL,
+  picture   VARCHAR(255),
+  mail      VARCHAR(255) NOT NULL,
+  password  VARCHAR(255) NOT NULL,
+  location  VARCHAR(255),
+  friends   VARCHAR(255),
+  sessionId VARCHAR(255)
 );
 
 DROP TABLE IF EXISTS Groups;
 CREATE TABLE Groups (
-  id      INT(11) PRIMARY KEY AUTO_INCREMENT,
-  name    VARCHAR(255)
+  id   INT(11) PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(255)
 );
 
 DROP TABLE IF EXISTS Users_Groups;

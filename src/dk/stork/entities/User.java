@@ -17,18 +17,20 @@ public class User extends EntityObject {
     private String password;
     private String location;
     private Set<Group> groups;
+    private String sessionId;
 
     @SuppressWarnings("Unused")
     public User() {
     }
 
-    public User(int id, String picture, String mail, String password, String location, Set<Group> groups) {
+    public User(int id, String picture, String mail, String password, String location, Set<Group> groups, String sessionId) {
         this.id = id;
         this.picture = picture;
         this.mail = mail;
         this.password = password;
         this.location = location;
         this.groups = groups;
+        this.sessionId = sessionId;
     }
 
     public String getName() {
@@ -85,5 +87,13 @@ public class User extends EntityObject {
 
     public void setGroups(Set<Group> groups) {
         this.groups = groups;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 }
