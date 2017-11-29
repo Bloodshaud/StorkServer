@@ -28,11 +28,11 @@
         </property>
 
         <property name="hibernate.connection.username">
-            root
+            servletUser
         </property>
 
         <property name="hibernate.connection.password">
-            test
+            testPassword
         </property>
 
         <!-- XML mapping files -->
