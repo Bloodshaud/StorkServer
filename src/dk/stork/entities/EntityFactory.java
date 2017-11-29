@@ -1,5 +1,6 @@
 package dk.stork.entities;
 
+import dk.stork.exceptions.EntityNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -20,6 +21,16 @@ public class EntityFactory {
         StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
         SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
         session = sessionFactory.openSession();
+    }
+
+    public static User getUserFromEmail(String email) {
+        List<User> users = getModelObjects(User.class);
+        for (User user : users) {
+            if (email.equals(user.getMail())) {
+                return user;
+            }
+        }
+        throw new EntityNotFoundException("No user found with email: " + email);
     }
 
     public static <T> T getModelObject(Class<T> clazz, int id) {
