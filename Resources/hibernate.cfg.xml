@@ -1,4 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
+<!--
+    @author Johannes
+    Hibernate mapping for User class
+    Don't change without consulting author(s)
+-->
+
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">

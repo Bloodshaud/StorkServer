@@ -1,6 +1,7 @@
 <%@ page import="dk.stork.entities.EntityFactory" %>
 <%@ page import="dk.stork.entities.User" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%--
   Created by IntelliJ IDEA.
   User: Johannes
   Date: 22-11-2017
