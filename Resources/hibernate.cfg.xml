@@ -37,7 +37,7 @@
 
         <!-- XML mapping files -->
         <mapping resource="dk/stork/entities/User.hbm.xml"/>
-        <mapping resource="dk/stork/entities/Groups.hbm.xml"/>
+        <mapping resource="dk/stork/entities/Group.hbm.xml"/>
 
     </session-factory>
 </hibernate-configuration>
