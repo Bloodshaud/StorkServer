@@ -1,29 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
     @author Johannes
-    Hibernate mapping for User class
+    Hibernate mapping for Group class
     Don't change without consulting author(s)
 -->
 <!DOCTYPE hibernate-mapping PUBLIC
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="dk.stork.entities">
-    <class name="User" table="users">
+    <class name="Group" table="groups">
         <id name="id" column="id">
             <generator class="native"/>
         </id>
         <property name="name" column="name"/>
-        <property name="picture" column="picture"/>
-        <property name="mail" column="mail"/>
-        <property name="password" column="password"/>
-        <property name="location" column="location"/>
 
-        <set name="groups" table="users_groups" inverse="true" lazy="true" fetch="select">
+        <set name="members" table="users_groups"
+             inverse="false" lazy="true" fetch="select" cascade="all">
             <key>
-                <column name="userId" not-null="true"/>
-            </key>
-            <many-to-many entity-name="Group">
                 <column name="groupId" not-null="true"/>
+            </key>
+            <many-to-many entity-name="User">
+                <column name="userId" not-null="true"/>
             </many-to-many>
         </set>
     </class>
