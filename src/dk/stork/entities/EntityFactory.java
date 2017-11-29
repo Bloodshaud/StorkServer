@@ -2,6 +2,7 @@ package dk.stork.entities;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -38,7 +39,9 @@ public class EntityFactory {
             initializeSession();
         }
         session.beginTransaction();
-        return session.createQuery("from clazz".replace("clazz", clazz.getSimpleName()), clazz).list();
+        List<T> result = session.createQuery("from clazz".replace("clazz", clazz.getSimpleName()), clazz).list();
+        session.getTransaction().commit();
+        return result;
 
     }
 
