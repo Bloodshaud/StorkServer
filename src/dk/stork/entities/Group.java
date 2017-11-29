@@ -42,4 +42,16 @@ public class Group extends EntityObject {
     public void setMembers(Set<User> members) {
         this.members = members;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (User user : getMembers()) {
+            if (stringBuilder.length() > 0) {
+                stringBuilder.append(", ");
+            }
+            stringBuilder.append(user.getName());
+        }
+        return name + ": " + stringBuilder.toString();
+    }
 }

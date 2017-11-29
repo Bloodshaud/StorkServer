@@ -1,4 +1,5 @@
 <%@ page import="dk.stork.entities.EntityFactory" %>
+<%@ page import="dk.stork.entities.Group" %>
 <%@ page import="dk.stork.entities.User" %>
 <%@ page import="java.util.List" %>
 <%--
@@ -11,7 +12,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     StringBuilder sb = new StringBuilder();
-    sb.append("<tr> <td>1</td><td>2</td><td>3</td> </tr>");
     List<User> users = EntityFactory.getModelObjects(User.class);
     for (User user : users) {
         sb.append("<tr><td>")
@@ -22,8 +22,19 @@
                 .append(user.getMail())
                 .append("</td></tr>");
     }
+    StringBuilder sb2 = new StringBuilder();
+    List<Group> groups = EntityFactory.getModelObjects(Group.class);
+    for (Group group : groups) {
+        sb2.append("<tr><td>")
+                .append(group.getId())
+                .append("</td><td>")
+                .append(group.toString().replace(":", "</td><td>"))
+                .append("</td></tr>");
+    }
     EntityFactory.destroy();
     String body = sb.toString();
+    String body2 = sb2.toString();
+
 %>
 <html>
 <head>
@@ -37,6 +48,14 @@
         <th> E-mail</th>
     </tr>
     <% out.println(body); %>
+</table>
+<table>
+    <tr>
+        <th> Id</th>
+        <th> Name</th>
+        <th> Members</th>
+    </tr>
+    <% out.println(body2); %>
 </table>
 </body>
 </html>
