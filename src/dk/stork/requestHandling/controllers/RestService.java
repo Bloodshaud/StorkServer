@@ -3,9 +3,11 @@ package dk.stork.requestHandling.controllers;
 import com.google.gson.Gson;
 import dk.stork.entities.EntityFactory;
 import dk.stork.entities.User;
+import dk.stork.exceptions.EntityNotFoundException;
 import dk.stork.requestHandling.RegisterUserRequest;
 import dk.stork.requestHandling.communicationObjects.LoginRequest;
 import dk.stork.requestHandling.communicationObjects.LogoutRequest;
+import dk.stork.requestHandling.communicationObjects.UpdateLocationRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,10 +66,25 @@ public class RestService {
         RegisterUserRequest req = gson.fromJson(registerUserString, RegisterUserRequest.class);
         int id = EntityFactory.userFromRegisterRequest(req);
         String sessionId = EntityFactory.login(id);
-
+        req.setUserId(id);
         req.setPassword("");
         req.setSessionId(sessionId);
 
         return req;
+    }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @RequestMapping(value = "/updateLocation", method = RequestMethod.POST)
+    public void updateLocation(@RequestBody String updateLocationString) {
+        UpdateLocationRequest req = gson.fromJson(updateLocationString, UpdateLocationRequest.class);
+        User user = EntityFactory.getModelObject(req.getUserId(), User.class);
+        if (user == null) {
+            EntityFactory.getUserFromSessionId(req.getSessionId());
+        }
+        if (user == null) {
+            throw new EntityNotFoundException("No user found for id or sessionId");
+        }
+        user.setLocation(gson.toJson(req.getLocation()));
+
     }
 }

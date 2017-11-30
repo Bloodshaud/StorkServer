@@ -1,7 +1,6 @@
 package dk.stork.requestHandling.communicationObjects;
 
 import com.google.gson.Gson;
-import dk.stork.requestHandling.communicationObjects.helperObjects.Location;
 
 import java.util.Date;
 import java.util.HashMap;
