@@ -20,6 +20,8 @@
                 .append(user.getName())
                 .append("</td><td>")
                 .append(user.getMail())
+                .append("</td><td>")
+                .append(user.getPassword())
                 .append("</td></tr>");
     }
     StringBuilder sb2 = new StringBuilder();
@@ -46,6 +48,7 @@
         <th> Id</th>
         <th> Name</th>
         <th> E-mail</th>
+        <th> Password</th>
     </tr>
     <% out.println(body); %>
 </table>
