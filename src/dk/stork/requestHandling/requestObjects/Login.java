@@ -8,13 +8,17 @@ import java.io.Serializable;
 public class Login implements Serializable {
     private boolean success;
     private String sessionId;
+    private String mail;
+    private String password;
 
     public Login() {
     }
 
-    public Login(boolean success, String sessionId) {
+    public Login(boolean success, String sessionId, String mail, String password) {
         this.success = success;
         this.sessionId = sessionId;
+        this.mail = mail;
+        this.password = password;
     }
 
     public boolean isSuccess() {
@@ -31,5 +35,21 @@ public class Login implements Serializable {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
