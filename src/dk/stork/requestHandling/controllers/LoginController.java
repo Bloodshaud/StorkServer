@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import dk.stork.entities.EntityFactory;
 import dk.stork.entities.User;
 import dk.stork.exceptions.EntityNotFoundException;
-import dk.stork.requestHandling.requestObjects.LoginRequest;
+import dk.stork.requestHandling.communicationObjects.LoginRequest;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
