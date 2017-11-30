@@ -6,7 +6,7 @@ import com.google.gson.Gson;
  * @author Johannes Ernstsen
  */
 public class UserObject {
-    private int id;
+    private int userId;
     private String name;
     private String mail;
     private String sessionId;
@@ -14,19 +14,19 @@ public class UserObject {
     public UserObject() {
     }
 
-    public UserObject(int id, String name, String mail, String sessionId) {
-        this.id = id;
+    public UserObject(int userId, String name, String mail, String sessionId) {
+        this.userId = userId;
         this.name = name;
         this.mail = mail;
         this.sessionId = sessionId;
     }
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getName() {
