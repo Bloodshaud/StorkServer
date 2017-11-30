@@ -3,12 +3,11 @@ package dk.stork.requestHandling.controllers;
 import com.google.gson.Gson;
 import dk.stork.entities.EntityFactory;
 import dk.stork.entities.User;
-import dk.stork.exceptions.EntityNotFoundException;
+import dk.stork.requestHandling.RegisterUserRequest;
 import dk.stork.requestHandling.communicationObjects.LoginRequest;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import dk.stork.requestHandling.communicationObjects.LogoutRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -18,27 +17,57 @@ import java.util.UUID;
 @RestController
 public class RestService {
 
+    private final Gson gson = new Gson();
+
+    @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public LoginRequest login(@RequestBody String loginString) {
-        LoginRequest loginRequest = new Gson().fromJson(loginString, LoginRequest.class);
+        LoginRequest loginRequest = gson.fromJson(loginString, LoginRequest.class);
         loginRequest.setSuccess(false);
-        User user = null;
-        try {
-            user = EntityFactory.getUserFromEmail(loginRequest.getMail());
-        } catch (EntityNotFoundException e) {
-            System.out.println(e.getMessage());//TODO: REPLACE WITH LOGGER
-        }
+
+        User user = EntityFactory.getUserFromEmail(loginRequest.getMail());
+
         if (user != null) {
             if (user.getPassword().equalsIgnoreCase(loginRequest.getPassword())) {
-                String sessionId = UUID.randomUUID().toString();
                 loginRequest.setSuccess(true);
+                String sessionId = EntityFactory.login(user);
                 loginRequest.setSessionId(sessionId);
-                user.setSessionId(sessionId);
-                user.save();
             }
         }
 
         EntityFactory.destroy();
         return loginRequest;
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public LogoutRequest logout(@RequestBody String logoutString) {
+        LogoutRequest logoutRequest = gson.fromJson(logoutString, LogoutRequest.class);
+        User user = EntityFactory.getModelObject(logoutRequest.getUserId(), User.class);
+        if (user == null) {
+            user = EntityFactory.getUserFromSessionId(logoutRequest.getSessionId());
+        }
+        if (user != null) {
+            user.setSessionId("");
+            user.save();
+            logoutRequest.setSuccess(true);
+        } else {
+            logoutRequest.setSuccess(false);
+        }
+        logoutRequest.setSessionId("");
+        return logoutRequest;
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public RegisterUserRequest registerUser(@RequestBody String registerUserString) {
+        RegisterUserRequest req = gson.fromJson(registerUserString, RegisterUserRequest.class);
+        int id = EntityFactory.userFromRegisterRequest(req);
+        String sessionId = EntityFactory.login(id);
+
+        req.setPassword("");
+        req.setSessionId(sessionId);
+
+        return req;
     }
 }
