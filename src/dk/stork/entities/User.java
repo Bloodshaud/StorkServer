@@ -1,5 +1,7 @@
 package dk.stork.entities;
 
+import dk.stork.requestHandling.communicationObjects.UserObject;
+
 import java.util.Set;
 
 /**
@@ -95,5 +97,17 @@ public class User extends EntityObject {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public UserObject createUserObject() {
+        return new UserObject(id, name, mail, sessionId);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof User)) {
+            return false;
+        }
+        return id == ((User) obj).getId();
     }
 }

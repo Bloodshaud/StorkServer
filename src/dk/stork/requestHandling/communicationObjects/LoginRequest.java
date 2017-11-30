@@ -10,15 +10,17 @@ public class LoginRequest implements Serializable {
     private String sessionId;
     private String mail;
     private String password;
+    private int id;
 
     public LoginRequest() {
     }
 
-    public LoginRequest(boolean success, String sessionId, String mail, String password) {
+    public LoginRequest(boolean success, String sessionId, String mail, String password, int id) {
         this.success = success;
         this.sessionId = sessionId;
         this.mail = mail;
         this.password = password;
+        this.id = id;
     }
 
     public boolean isSuccess() {
@@ -51,5 +53,13 @@ public class LoginRequest implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

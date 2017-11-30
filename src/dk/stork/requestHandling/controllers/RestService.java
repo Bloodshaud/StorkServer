@@ -2,16 +2,16 @@ package dk.stork.requestHandling.controllers;
 
 import com.google.gson.Gson;
 import dk.stork.entities.EntityFactory;
+import dk.stork.entities.Group;
 import dk.stork.entities.User;
 import dk.stork.exceptions.EntityNotFoundException;
 import dk.stork.requestHandling.RegisterUserRequest;
-import dk.stork.requestHandling.communicationObjects.LoginRequest;
-import dk.stork.requestHandling.communicationObjects.LogoutRequest;
-import dk.stork.requestHandling.communicationObjects.UpdateLocationRequest;
+import dk.stork.requestHandling.communicationObjects.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * @author Johannes Ernstsen
@@ -34,10 +34,13 @@ public class RestService {
                 loginRequest.setSuccess(true);
                 String sessionId = EntityFactory.login(user);
                 loginRequest.setSessionId(sessionId);
+            } else {
+                loginRequest.setSuccess(false);
             }
+        } else {
+            throw new EntityNotFoundException("No user with supplied mail");
         }
 
-        EntityFactory.destroy();
         return loginRequest;
     }
 
@@ -46,9 +49,6 @@ public class RestService {
     public LogoutRequest logout(@RequestBody String logoutString) {
         LogoutRequest logoutRequest = gson.fromJson(logoutString, LogoutRequest.class);
         User user = EntityFactory.getModelObject(logoutRequest.getUserId(), User.class);
-        if (user == null) {
-            user = EntityFactory.getUserFromSessionId(logoutRequest.getSessionId());
-        }
         if (user != null) {
             user.setSessionId("");
             user.save();
@@ -78,13 +78,50 @@ public class RestService {
     public void updateLocation(@RequestBody String updateLocationString) {
         UpdateLocationRequest req = gson.fromJson(updateLocationString, UpdateLocationRequest.class);
         User user = EntityFactory.getModelObject(req.getUserId(), User.class);
-        if (user == null) {
-            EntityFactory.getUserFromSessionId(req.getSessionId());
-        }
+
         if (user == null) {
             throw new EntityNotFoundException("No user found for id or sessionId");
         }
-        user.setLocation(gson.toJson(req.getLocation()));
+        String sessionId = user.getSessionId();
+        if (sessionId == null || !sessionId.equals(req.getSessionId())) {
+            throw new NotLoggedInException("No active session for user");
+        }
 
+        user.setLocation(gson.toJson(req.getLocation()));
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/getUser", method = RequestMethod.GET)
+    public UserObject getUser(@RequestParam("sessionId") String sessionId, @RequestParam("userId") int userId) {
+        User user = EntityFactory.getModelObject(userId, User.class);
+        if (user.getSessionId() == null || user.getSessionId().equals(sessionId)) {
+            throw new NotLoggedInException("No active session for user");
+        }
+        return user.createUserObject();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/getLocations", method = RequestMethod.GET)
+    public LocationsResponse getLocations(@RequestParam("sessionId") String sessionId, @RequestParam("userId") int userId) {
+        User user = EntityFactory.getModelObject(userId, User.class);
+        if (user.getSessionId() == null || user.getSessionId().equals(sessionId)) {
+            throw new NotLoggedInException("No active session for user");
+        }
+        HashMap<String, Location> locations = new HashMap<>();
+        HashSet<User> includedFriends = new HashSet<>();
+        //TODO: IMPLEMENT FRIENDS
+        for (Group group : user.getGroups()) {
+            for (User friend : group.getMembers()) {
+                if (!user.equals(friend) && !includedFriends.contains(friend)) {
+                    includedFriends.add(friend);
+                    if (friend.getLocation() != null && !friend.getLocation().equals("")) {
+                        locations.put(friend.getName(), gson.fromJson(friend.getLocation(), Location.class));
+                    }
+                }
+            }
+        } //TODO: IMPLEMENT ACTIVATED BOOLEAN FOR GROUP??
+        return new LocationsResponse(locations);
+    }
+
+
 }
