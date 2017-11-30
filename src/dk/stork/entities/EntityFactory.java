@@ -3,7 +3,6 @@ package dk.stork.entities;
 import dk.stork.exceptions.EntityNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -23,10 +22,18 @@ public class EntityFactory {
         session = sessionFactory.openSession();
     }
 
+    /**
+     * retrieve user by the use of their email
+     * <p>
+     * CASE IS IGNORED
+     *
+     * @param email email to search for
+     * @return the user associated with the email
+     */
     public static User getUserFromEmail(String email) {
         List<User> users = getModelObjects(User.class);
         for (User user : users) {
-            if (email.equals(user.getMail())) {
+            if (email.equalsIgnoreCase(user.getMail())) {
                 return user;
             }
         }
