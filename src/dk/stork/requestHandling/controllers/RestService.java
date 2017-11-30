@@ -16,7 +16,7 @@ import java.util.UUID;
  * @author Johannes Ernstsen
  */
 @RestController
-public class LoginController {
+public class RestService {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public LoginRequest login(@RequestBody String loginString) {
