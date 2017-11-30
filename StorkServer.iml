@@ -41,5 +41,6 @@
     <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
     <orderEntry type="library" name="mysql-connector-java-5.1.44-bin" level="project" />
     <orderEntry type="library" name="gson-2.8.2" level="project" />
+    <orderEntry type="library" name="communicationObjects" level="project" />
   </component>
 </module>

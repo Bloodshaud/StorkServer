@@ -28,7 +28,6 @@ public class LoginController {
         } catch (EntityNotFoundException e) {
             System.out.println(e.getMessage());//TODO: REPLACE WITH LOGGER
         }
-
         if (user != null) {
             if (user.getPassword().equalsIgnoreCase(loginRequest.getPassword())) {
                 String sessionId = UUID.randomUUID().toString();

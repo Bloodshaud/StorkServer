@@ -1,4 +1,4 @@
-package dk.stork.requestHandling.communicationObjects.HelperObjects;
+package dk.stork.requestHandling.communicationObjects.helperObjects;
 
 import java.io.Serializable;
 
