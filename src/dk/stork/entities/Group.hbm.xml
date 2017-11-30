@@ -9,9 +9,9 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="dk.stork.entities">
     <class name="Group" table="groups">
-        <userId name="userId" column="userId">
+        <id name="id" column="id">
             <generator class="native"/>
-        </userId>
+        </id>
         <property name="name" column="name"/>
 
         <set name="members" table="users_groups"
