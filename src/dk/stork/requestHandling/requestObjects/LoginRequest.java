@@ -5,16 +5,16 @@ import java.io.Serializable;
 /**
  * @author Johannes Ernstsen
  */
-public class Login implements Serializable {
+public class LoginRequest implements Serializable {
     private boolean success;
     private String sessionId;
     private String mail;
     private String password;
 
-    public Login() {
+    public LoginRequest() {
     }
 
-    public Login(boolean success, String sessionId, String mail, String password) {
+    public LoginRequest(boolean success, String sessionId, String mail, String password) {
         this.success = success;
         this.sessionId = sessionId;
         this.mail = mail;
