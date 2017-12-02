@@ -2,6 +2,7 @@ package dk.stork.entities;
 
 import dk.stork.requestHandling.communicationObjects.UserObject;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -107,6 +108,14 @@ public class User extends EntityObject {
 
     public void setFriends(Set<User> friends) {
         this.friends = friends;
+    }
+
+    public void removeFriends(List<User> users) {
+        friends.removeAll(users);
+    }
+
+    public void addFriends(List<User> users) {
+        friends.addAll(users);
     }
 
     public UserObject createUserObject() {

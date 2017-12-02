@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * @author Johannes Ernstsen
@@ -90,6 +91,31 @@ public class RestService {
         user.setLocation(gson.toJson(req.getLocation()));
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value = "/friend", method = RequestMethod.POST)
+    public void friendChange(@RequestBody String body) {
+        FriendChangeRequest req = gson.fromJson(body, FriendChangeRequest.class);
+        User user = EntityFactory.getModelObject(req.getUserId(), User.class);
+
+        if (user == null) {
+            throw new EntityNotFoundException("No user found for id or sessionId");
+        }
+        String sessionId = user.getSessionId();
+        if (sessionId == null || !sessionId.equals(req.getSessionId())) {
+            throw new NotLoggedInException("No active session for user");
+        }
+
+        List<User> friends = EntityFactory.getUsers(req.getFriends());
+        switch (req.getAction()) {
+            case ADD:
+                user.addFriends(friends);
+            case REMOVE:
+                user.removeFriends(friends);
+            default:
+                throw new RuntimeException("Malformed Body - no action found");
+        }
+    }
+
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/getUser", method = RequestMethod.GET)
     public UserObject getUser(@RequestParam("sessionId") String sessionId, @RequestParam("userId") int userId) {
@@ -109,7 +135,7 @@ public class RestService {
         }
         HashMap<String, Location> locations = new HashMap<>();
         HashSet<User> includedFriends = new HashSet<>();
-        //TODO: IMPLEMENT FRIENDS
+        
         for (Group group : user.getGroups()) {
             for (User friend : group.getMembers()) {
                 if (!user.equals(friend) && !includedFriends.contains(friend)) {

@@ -8,6 +8,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -111,6 +112,23 @@ public class EntityFactory {
         user.setPassword(req.getPassword());
         user.save();
         return user.getId();
+    }
+
+    /**
+     * Returns list with users for each id
+     *
+     * @param ids ids of the users to retrieve
+     * @return {@link List<User>}
+     */
+    public static List<User> getUsers(List<Integer> ids) {
+        ArrayList<User> result = new ArrayList<>();
+        List<User> users = getModelObjects(User.class);
+        for (User user : users) {
+            if (ids.contains(user.getId())) {
+                result.add(user);
+            }
+        }
+        return result;
     }
 
     /**
