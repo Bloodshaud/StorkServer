@@ -19,19 +19,21 @@ public class User extends EntityObject {
     private String password;
     private String location;
     private Set<Group> groups;
+    private Set<User> friends;
     private String sessionId;
 
     @SuppressWarnings("Unused")
     public User() {
     }
 
-    public User(int id, String picture, String mail, String password, String location, Set<Group> groups, String sessionId) {
+    public User(int id, String picture, String mail, String password, String location, Set<Group> groups, Set<User> friends, String sessionId) {
         this.id = id;
         this.picture = picture;
         this.mail = mail;
         this.password = password;
         this.location = location;
         this.groups = groups;
+        this.friends = friends;
         this.sessionId = sessionId;
     }
 
@@ -97,6 +99,14 @@ public class User extends EntityObject {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public Set<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Set<User> friends) {
+        this.friends = friends;
     }
 
     public UserObject createUserObject() {

@@ -19,6 +19,15 @@
         <property name="location" column="location"/>
         <property name="sessionId" column="sessionId"/>
 
+        <set name="friends" table="friends" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="userId" not-null="true"/>
+            </key>
+            <many-to-many entity-name="dk.stork.entities.User">
+                <column name="friendId" not-null="true"/>
+            </many-to-many>
+        </set>
+
         <set name="groups" table="users_groups" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="userId" not-null="true"/>
