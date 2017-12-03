@@ -27,21 +27,19 @@ public class RestService {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public LoginRequest login(@RequestBody String loginString) {
         LoginRequest loginRequest = gson.fromJson(loginString, LoginRequest.class);
-        loginRequest.setSuccess(false);
 
         User user = EntityFactory.getUserFromEmail(loginRequest.getMail());
 
         if (user != null) {
             if (user.getPassword().equalsIgnoreCase(loginRequest.getPassword())) {
-                loginRequest.setSuccess(true);
                 String sessionId = EntityFactory.login(user);
                 loginRequest.setUserId(user.getId());
                 loginRequest.setSessionId(sessionId);
             } else {
-                loginRequest.setSuccess(false);
+                throw new EntityNotFoundException("No user with this combination of mail and password");
             }
         } else {
-            throw new EntityNotFoundException("No user with supplied mail");
+            throw new EntityNotFoundException("No user with this combination of mail and password");
         }
 
         return loginRequest;
