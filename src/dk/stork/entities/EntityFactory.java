@@ -1,6 +1,7 @@
 package dk.stork.entities;
 
 import dk.stork.exceptions.EntityNotFoundException;
+import dk.stork.requestHandling.communicationObjects.PublicUserObject;
 import dk.stork.requestHandling.communicationObjects.RegisterUserRequest;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -127,6 +128,18 @@ public class EntityFactory {
             if (ids.contains(user.getId())) {
                 result.add(user);
             }
+        }
+        return result;
+    }
+
+    /**
+     * @return {@link List<PublicUserObject> with {@link PublicUserObject} representing all {@link User}s in the database}
+     */
+    public static List<PublicUserObject> getAllUsersAsPublicUserObjects() {
+        List<User> users = getModelObjects(User.class);
+        ArrayList<PublicUserObject> result = new ArrayList<>();
+        for (User user : users) {
+            result.add(new PublicUserObject(user.getId(), user.getName(), user.getMail()));
         }
         return result;
     }

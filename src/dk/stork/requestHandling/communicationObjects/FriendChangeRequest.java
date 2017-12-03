@@ -12,11 +12,11 @@ public class FriendChangeRequest implements Serializable {
     private String sessionId;
     private List<Integer> friends;
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public FriendChangeRequest() {
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public FriendChangeRequest(ActionEnum action, int userId, String sessionId, List<Integer> friends) {
         this.action = action;
         this.userId = userId;
@@ -24,42 +24,42 @@ public class FriendChangeRequest implements Serializable {
         this.friends = friends;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public ActionEnum getAction() {
         return action;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setAction(ActionEnum action) {
         this.action = action;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public int getUserId() {
         return userId;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setId(int userId) {
         this.userId = userId;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public String getSessionId() {
         return sessionId;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public List<Integer> getFriends() {
         return friends;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setFriends(List<Integer> friends) {
         this.friends = friends;
     }

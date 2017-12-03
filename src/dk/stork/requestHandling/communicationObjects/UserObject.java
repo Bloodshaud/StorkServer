@@ -11,11 +11,11 @@ public class UserObject {
     private String mail;
     private String sessionId;
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public UserObject() {
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public UserObject(int userId, String name, String mail, String sessionId) {
         this.userId = userId;
         this.name = name;
@@ -27,42 +27,42 @@ public class UserObject {
         System.out.println(new Gson().toJson(new UserObject(1, "Johannes Ernstsen", "Ernstsen.johannes@gmail.com", "e7d35d2d-9521-4aa9-a6c5-dc4b08aaf638")));
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public int getUserId() {
         return userId;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public String getName() {
         return name;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setName(String name) {
         this.name = name;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public String getMail() {
         return mail;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setMail(String mail) {
         this.mail = mail;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public String getSessionId() {
         return sessionId;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }

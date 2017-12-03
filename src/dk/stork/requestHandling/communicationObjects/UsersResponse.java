@@ -5,25 +5,25 @@ import java.util.List;
 /**
  * @author Johannes Ernstsen
  */
-public class FriendsResponse {
-    private List<FriendObject> friends;
+public class UsersResponse {
+    private List<PublicUserObject> users;
 
-    @SuppressWarnings("Unused")
-    public FriendsResponse() {
+    @SuppressWarnings("unused")
+    public UsersResponse() {
     }
 
-    @SuppressWarnings("Unused")
-    public FriendsResponse(List<FriendObject> friends) {
-        this.friends = friends;
+    @SuppressWarnings("unused")
+    public UsersResponse(List<PublicUserObject> users) {
+        this.users = users;
     }
 
-    @SuppressWarnings("Unused")
-    public List<FriendObject> getFriends() {
-        return friends;
+    @SuppressWarnings("unused")
+    public List<PublicUserObject> getUsers() {
+        return users;
     }
 
-    @SuppressWarnings("Unused")
-    public void setFriends(List<FriendObject> friends) {
-        this.friends = friends;
+    @SuppressWarnings("unused")
+    public void setUsers(List<PublicUserObject> users) {
+        this.users = users;
     }
 }

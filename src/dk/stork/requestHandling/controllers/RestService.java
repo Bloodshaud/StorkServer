@@ -121,7 +121,7 @@ public class RestService {
     @RequestMapping(value = "/getUser", method = RequestMethod.GET)
     public UserObject getUser(@RequestParam("sessionId") String sessionId, @RequestParam("userId") int userId) {
         User user = EntityFactory.getModelObject(userId, User.class);
-        if (user.getSessionId() == null || user.getSessionId().equals(sessionId)) {
+        if (user.getSessionId() == null || !user.getSessionId().equals(sessionId)) {
             throw new NotLoggedInException("No active session for user");
         }
         return user.createUserObject();
@@ -134,7 +134,7 @@ public class RestService {
         if (user == null) {
             throw new EntityNotFoundException("No user found for id or sessionId");
         }
-        if (user.getSessionId() == null || user.getSessionId().equals(sessionId)) {
+        if (user.getSessionId() == null || !user.getSessionId().equals(sessionId)) {
             throw new NotLoggedInException("No active session for user");
         }
         HashMap<String, Location> locations = new HashMap<>();
@@ -155,19 +155,25 @@ public class RestService {
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/getFriends", method = RequestMethod.GET)
-    public FriendsResponse getFriends(@RequestParam("sessionId") String sessionId, @RequestParam("userId") int userId) {
+    public UsersResponse getFriends(@RequestParam("sessionId") String sessionId, @RequestParam("userId") int userId) {
         User user = EntityFactory.getModelObject(userId, User.class);
         if (user == null) {
             throw new EntityNotFoundException("No user found for id or sessionId");
         }
-        if (user.getSessionId() == null || user.getSessionId().equals(sessionId)) {
+        if (user.getSessionId() == null || !user.getSessionId().equals(sessionId)) {
             throw new NotLoggedInException("No active session for user");
         }
-        ArrayList<FriendObject> friends = new ArrayList<>();
+        ArrayList<PublicUserObject> friends = new ArrayList<>();
         for (User friend : user.getFriends()) {
             friends.add(friend.createFriendObject());
         }
-        return new FriendsResponse(friends);
+        return new UsersResponse(friends);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/getUsers", method = RequestMethod.GET)
+    public UsersResponse getUsers() {
+        return new UsersResponse(EntityFactory.getAllUsersAsPublicUserObjects());
     }
 
 }

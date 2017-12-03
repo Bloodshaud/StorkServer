@@ -13,11 +13,11 @@ public class RegisterUserRequest implements Serializable {
     private int userId;
     private String sessionId;
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public RegisterUserRequest() {
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public RegisterUserRequest(boolean success, String name, String password, String mail, int userId, String sessionId) {
         this.success = success;
         this.name = name;
@@ -27,62 +27,62 @@ public class RegisterUserRequest implements Serializable {
         this.sessionId = sessionId;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public boolean isSuccess() {
         return success;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setSuccess(boolean success) {
         this.success = success;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public String getName() {
         return name;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setName(String name) {
         this.name = name;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public String getPassword() {
         return password;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setPassword(String password) {
         this.password = password;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public String getMail() {
         return mail;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setMail(String mail) {
         this.mail = mail;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public int getUserId() {
         return userId;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public String getSessionId() {
         return sessionId;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }

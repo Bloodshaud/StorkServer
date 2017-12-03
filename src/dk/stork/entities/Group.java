@@ -10,43 +10,43 @@ public class Group extends EntityObject {
     private String name;
     private Set<User> members;
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public Group() {
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public Group(int id, String name, Set<User> members) {
         this.id = id;
         this.name = name;
         this.members = members;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public int getId() {
         return id;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setId(int id) {
         this.id = id;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public String getName() {
         return name;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setName(String name) {
         this.name = name;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public Set<User> getMembers() {
         return members;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setMembers(Set<User> members) {
         this.members = members;
     }

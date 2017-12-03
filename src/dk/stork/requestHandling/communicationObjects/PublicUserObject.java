@@ -3,48 +3,48 @@ package dk.stork.requestHandling.communicationObjects;
 /**
  * @author Johannes Ernstsen
  */
-public class FriendObject {
+public class PublicUserObject {
     private int userId;
     private String name;
     private String mail;
 
-    @SuppressWarnings("Unused")
-    public FriendObject() {
+    @SuppressWarnings("unused")
+    public PublicUserObject() {
     }
 
-    @SuppressWarnings("Unused")
-    public FriendObject(int userId, String name, String mail) {
+    @SuppressWarnings("unused")
+    public PublicUserObject(int userId, String name, String mail) {
         this.userId = userId;
         this.name = name;
         this.mail = mail;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public int getUserId() {
         return userId;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public String getName() {
         return name;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setName(String name) {
         this.name = name;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public String getMail() {
         return mail;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setMail(String mail) {
         this.mail = mail;
     }

@@ -1,6 +1,6 @@
 package dk.stork.entities;
 
-import dk.stork.requestHandling.communicationObjects.FriendObject;
+import dk.stork.requestHandling.communicationObjects.PublicUserObject;
 import dk.stork.requestHandling.communicationObjects.UserObject;
 
 import java.util.List;
@@ -24,11 +24,11 @@ public class User extends EntityObject {
     private Set<User> friends;
     private String sessionId;
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public User() {
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public User(int id, String picture, String mail, String password, String location, Set<Group> groups, Set<User> friends, String sessionId) {
         this.id = id;
         this.picture = picture;
@@ -40,102 +40,102 @@ public class User extends EntityObject {
         this.sessionId = sessionId;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public String getName() {
         return name;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setName(String name) {
         this.name = name;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public int getId() {
         return id;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setId(int id) {
         this.id = id;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public String getPicture() {
         return picture;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setPicture(String picture) {
         this.picture = picture;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public String getMail() {
         return mail;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setMail(String mail) {
         this.mail = mail;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public String getPassword() {
         return password;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setPassword(String password) {
         this.password = password;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public String getLocation() {
         return location;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setLocation(String location) {
         this.location = location;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public Set<Group> getGroups() {
         return groups;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setGroups(Set<Group> groups) {
         this.groups = groups;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public String getSessionId() {
         return sessionId;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public Set<User> getFriends() {
         return friends;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void setFriends(Set<User> friends) {
         this.friends = friends;
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void removeFriends(List<User> users) {
         friends.removeAll(users);
     }
 
-    @SuppressWarnings("Unused")
+    @SuppressWarnings("unused")
     public void addFriends(List<User> users) {
         friends.addAll(users);
     }
@@ -144,8 +144,8 @@ public class User extends EntityObject {
         return new UserObject(id, name, mail, sessionId);
     }
 
-    public FriendObject createFriendObject() {
-        return new FriendObject(id, name, mail);
+    public PublicUserObject createFriendObject() {
+        return new PublicUserObject(id, name, mail);
     }
 
     @Override
