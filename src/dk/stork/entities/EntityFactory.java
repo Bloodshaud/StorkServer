@@ -1,7 +1,7 @@
 package dk.stork.entities;
 
 import dk.stork.exceptions.EntityNotFoundException;
-import dk.stork.requestHandling.RegisterUserRequest;
+import dk.stork.requestHandling.communicationObjects.RegisterUserRequest;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;

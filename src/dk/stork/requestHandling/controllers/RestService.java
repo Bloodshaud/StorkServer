@@ -5,11 +5,12 @@ import dk.stork.entities.EntityFactory;
 import dk.stork.entities.Group;
 import dk.stork.entities.User;
 import dk.stork.exceptions.EntityNotFoundException;
-import dk.stork.requestHandling.RegisterUserRequest;
+import dk.stork.requestHandling.communicationObjects.RegisterUserRequest;
 import dk.stork.requestHandling.communicationObjects.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -130,12 +131,15 @@ public class RestService {
     @RequestMapping(value = "/getLocations", method = RequestMethod.GET)
     public LocationsResponse getLocations(@RequestParam("sessionId") String sessionId, @RequestParam("userId") int userId) {
         User user = EntityFactory.getModelObject(userId, User.class);
+        if (user == null) {
+            throw new EntityNotFoundException("No user found for id or sessionId");
+        }
         if (user.getSessionId() == null || user.getSessionId().equals(sessionId)) {
             throw new NotLoggedInException("No active session for user");
         }
         HashMap<String, Location> locations = new HashMap<>();
         HashSet<User> includedFriends = new HashSet<>();
-        
+
         for (Group group : user.getGroups()) {
             for (User friend : group.getMembers()) {
                 if (!user.equals(friend) && !includedFriends.contains(friend)) {
@@ -149,5 +153,21 @@ public class RestService {
         return new LocationsResponse(locations);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/getFriends", method = RequestMethod.GET)
+    public FriendsResponse getFriends(@RequestParam("sessionId") String sessionId, @RequestParam("userId") int userId) {
+        User user = EntityFactory.getModelObject(userId, User.class);
+        if (user == null) {
+            throw new EntityNotFoundException("No user found for id or sessionId");
+        }
+        if (user.getSessionId() == null || user.getSessionId().equals(sessionId)) {
+            throw new NotLoggedInException("No active session for user");
+        }
+        ArrayList<FriendObject> friends = new ArrayList<>();
+        for (User friend : user.getFriends()) {
+            friends.add(friend.createFriendObject());
+        }
+        return new FriendsResponse(friends);
+    }
 
 }
