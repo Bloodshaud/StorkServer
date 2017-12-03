@@ -35,6 +35,7 @@ public class RestService {
             if (user.getPassword().equalsIgnoreCase(loginRequest.getPassword())) {
                 loginRequest.setSuccess(true);
                 String sessionId = EntityFactory.login(user);
+                loginRequest.setUserId(user.getId());
                 loginRequest.setSessionId(sessionId);
             } else {
                 loginRequest.setSuccess(false);
@@ -110,8 +111,10 @@ public class RestService {
         switch (req.getAction()) {
             case ADD:
                 user.addFriends(friends);
+                break;
             case REMOVE:
                 user.removeFriends(friends);
+                break;
             default:
                 throw new RuntimeException("Malformed Body - no action found");
         }

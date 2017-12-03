@@ -133,11 +133,13 @@ public class User extends EntityObject {
     @SuppressWarnings("unused")
     public void removeFriends(List<User> users) {
         friends.removeAll(users);
+        this.save();
     }
 
     @SuppressWarnings("unused")
     public void addFriends(List<User> users) {
         friends.addAll(users);
+        this.save();
     }
 
     public UserObject createUserObject() {
