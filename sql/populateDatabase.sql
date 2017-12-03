@@ -22,4 +22,4 @@ INSERT INTO users_groups (userId, groupId) VALUES
 INSERT INTO friends (userId, friendId) VALUES
   (1, 2),
   (1, 3),
-  (2, 3)
+  (2, 3);
