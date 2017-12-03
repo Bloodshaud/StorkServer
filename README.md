@@ -212,3 +212,32 @@ Gets locations for all friends/group members
    }
  }
  ``` 
+ 
+### Get Locations
+Gets locations for all friends/group members
+
+ | key    |                  value                 |
+ |:------:| :------------------------------------- |
+ | Type   | GET                                    |
+ | Path   | /getFriends                            |
+ | Params | sessionId, userId                      |
+ | Resp   | Json object LocationsResponse          |
+ | Code   | 200/404/500/                           |
+ 
+  #### Example Response:
+ ```json
+ {
+   "locations": {
+     "Søby": {
+       "longtitude": 3.8,
+       "lattitude": 4.5,
+       "timeStamp": 1512050488140
+     },
+     "Morten": {
+       "longtitude": 1.7,
+       "lattitude": 2.3,
+       "timeStamp": 1512050488140
+     }
+   }
+ }
+ ``` 
