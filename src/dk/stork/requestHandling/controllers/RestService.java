@@ -155,8 +155,8 @@ public class RestService {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/getLocations", method = RequestMethod.GET)
-    public LocationsResponse getLocations(@RequestParam("sessionId") String sessionId, @RequestParam("userId") int userId) {
+    @RequestMapping(value = "/getGroups", method = RequestMethod.GET)
+    public GroupsResponse getGroups(@RequestParam("sessionId") String sessionId, @RequestParam("userId") int userId) {
         User user = EntityFactory.getModelObject(userId, User.class);
         if (user == null) {
             throw new EntityNotFoundException("No user found for id or sessionId");
@@ -164,20 +164,25 @@ public class RestService {
         if (user.getSessionId() == null || !user.getSessionId().equals(sessionId)) {
             throw new NotLoggedInException("No active session for user");
         }
-        HashMap<String, Location> locations = new HashMap<>();
-        HashSet<User> includedFriends = new HashSet<>();
+        HashMap<String, List<GroupObject>> groupsMap = new HashMap<>();
+        List<GroupObject> groupObjects = new ArrayList<>();
 
         for (Group group : user.getGroups()) {
-            for (User friend : group.getMembers()) {
-                if (!user.equals(friend) && !includedFriends.contains(friend)) {
-                    includedFriends.add(friend);
-                    if (friend.getLocation() != null && !friend.getLocation().equals("")) {
-                        locations.put(friend.getName(), gson.fromJson(friend.getLocation(), Location.class));
+            HashSet<FriendObject> includedFriends = new HashSet<>();
+            for (User groupMember : group.getMembers()) {
+                if (!user.equals(groupMember) && !includedFriends.contains(groupMember)) {
+                    if (groupMember.getLocation() != null && !groupMember.getLocation().equals("")) {
+                        Location location = gson.fromJson(user.getLocation(), Location.class);
+                        FriendObject friendObject = new FriendObject(user.getId(), user.getName(), location);
+                        includedFriends.add(friendObject);
                     }
                 }
             }
+            GroupObject groupObject = new GroupObject(group.getId(), group.getName(), new ArrayList<>(includedFriends));
+            groupObjects.add(groupObject);
         } //TODO: IMPLEMENT ACTIVATED BOOLEAN FOR GROUP??
-        return new LocationsResponse(locations);
+        groupsMap.put("groups", groupObjects);
+        return new GroupsResponse(groupsMap);
     }
 
     @ResponseStatus(HttpStatus.OK)
