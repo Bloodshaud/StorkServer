@@ -97,6 +97,7 @@ public class RestService {
         }
 
         user.setLocation(gson.toJson(req.getLocation()));
+        user.save();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
