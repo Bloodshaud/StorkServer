@@ -5,14 +5,11 @@ import dk.stork.entities.EntityFactory;
 import dk.stork.entities.Group;
 import dk.stork.entities.User;
 import dk.stork.exceptions.EntityNotFoundException;
-import dk.stork.requestHandling.communicationObjects.RegisterUserRequest;
 import dk.stork.requestHandling.communicationObjects.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -26,14 +23,13 @@ public class RestService {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public LoginRequest login(@RequestBody String loginString) {
-        EntityFactory entityFactory = new EntityFactory();
         LoginRequest loginRequest = gson.fromJson(loginString, LoginRequest.class);
 
-        User user = entityFactory.getUserFromEmail(loginRequest.getMail());
+        User user = EntityFactory.getUserFromEmail(loginRequest.getMail());
 
         if (user != null) {
             if (user.getPassword().equalsIgnoreCase(loginRequest.getPassword())) {
-                String sessionId = entityFactory.login(user);
+                String sessionId = EntityFactory.login(user);
                 loginRequest.setUserId(user.getId());
                 loginRequest.setSessionId(sessionId);
             } else {
@@ -49,10 +45,9 @@ public class RestService {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public LogoutRequest logout(@RequestBody String logoutString) {
-        EntityFactory entityFactory = new EntityFactory();
 
         LogoutRequest logoutRequest = gson.fromJson(logoutString, LogoutRequest.class);
-        User user = entityFactory.getModelObject(logoutRequest.getUserId(), User.class);
+        User user = EntityFactory.getModelObject(logoutRequest.getUserId(), User.class);
         if (user != null) {
             user.setSessionId("");
             user.save();
@@ -69,10 +64,9 @@ public class RestService {
     public RegisterUserRequest registerUser(@RequestBody String registerUserString) {
         RegisterUserRequest req = gson.fromJson(registerUserString, RegisterUserRequest.class);
 
-        EntityFactory entityFactory = new EntityFactory();
-        int id = entityFactory.userFromRegisterRequest(req);
+        int id = EntityFactory.userFromRegisterRequest(req);
 
-        String sessionId = entityFactory.login(id);
+        String sessionId = EntityFactory.login(id);
         req.setUserId(id);
         req.setPassword("");
         req.setSessionId(sessionId);
@@ -85,8 +79,7 @@ public class RestService {
     public void updateLocation(@RequestBody String updateLocationString) {
         UpdateLocationRequest req = gson.fromJson(updateLocationString, UpdateLocationRequest.class);
 
-        EntityFactory entityFactory = new EntityFactory();
-        User user = entityFactory.getModelObject(req.getUserId(), User.class);
+        User user = EntityFactory.getModelObject(req.getUserId(), User.class);
 
         if (user == null) {
             throw new EntityNotFoundException("No user found for id or sessionId");
@@ -105,8 +98,7 @@ public class RestService {
     public void friendChange(@RequestBody String body) {
         FriendChangeRequest req = gson.fromJson(body, FriendChangeRequest.class);
 
-        EntityFactory entityFactory = new EntityFactory();
-        User user = entityFactory.getModelObject(req.getUserId(), User.class);
+        User user = EntityFactory.getModelObject(req.getUserId(), User.class);
 
         if (user == null) {
             throw new EntityNotFoundException("No user found for id or sessionId");
@@ -116,7 +108,7 @@ public class RestService {
             throw new NotLoggedInException("No active session for user");
         }
 
-        List<User> friends = entityFactory.getUsers(req.getFriends());
+        List<User> friends = EntityFactory.getUsers(req.getFriends());
         switch (req.getAction()) {
             case ADD:
                 user.addFriends(friends);
@@ -134,14 +126,13 @@ public class RestService {
     public ChangeUserRequest changeUser(@RequestBody String body) {
         ChangeUserRequest req = gson.fromJson(body, ChangeUserRequest.class);
 
-        EntityFactory entityFactory = new EntityFactory();
-        User user = entityFactory.getModelObject(req.getUserId(), User.class);
+        User user = EntityFactory.getModelObject(req.getUserId(), User.class);
         boolean hasNewPassword = !req.getNewPassword().isEmpty() && !user.getPassword().equals(req.getNewPassword());
         boolean passwordIsCorrect = user.getPassword().equals(req.getPassword());
         boolean sessionsIsActive = user.getSessionId().equals(req.getSessionId());
         boolean hasChanged = false;
         if (hasNewPassword && passwordIsCorrect && sessionsIsActive) {
-            req.setSessionId(entityFactory.login(user));
+            req.setSessionId(EntityFactory.login(user));
             hasChanged = true;
         }
         boolean userNameHasChanged = !user.getName().equals(req.getName());
@@ -161,8 +152,7 @@ public class RestService {
     @RequestMapping(value = "/getUser", method = RequestMethod.GET)
     public UserObject getUser(@RequestParam("sessionId") String sessionId, @RequestParam("userId") int userId) {
 
-        EntityFactory entityFactory = new EntityFactory();
-        User user = entityFactory.getModelObject(userId, User.class);
+        User user = EntityFactory.getModelObject(userId, User.class);
         if (user.getSessionId() == null || !user.getSessionId().equals(sessionId)) {
             throw new NotLoggedInException("No active session for user");
         }
@@ -172,17 +162,14 @@ public class RestService {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/getGroups", method = RequestMethod.GET)
     public GroupsResponse getGroups(@RequestParam("sessionId") String sessionId, @RequestParam("userId") int userId) {
-        EntityFactory entityFactory = new EntityFactory();
-        User user = entityFactory.getModelObject(userId, User.class);
+        User user = EntityFactory.getModelObject(userId, User.class);
         if (user == null) {
             throw new EntityNotFoundException("No user found for id or sessionId");
         }
         if (user.getSessionId() == null || !user.getSessionId().equals(sessionId)) {
             throw new NotLoggedInException("No active session for user");
         }
-        HashMap<String, List<GroupObject>> groupsMap = new HashMap<>();
         List<GroupObject> groupObjects = new ArrayList<>();
-
         for (Group group : user.getGroups()) {
             List<FriendObject> includedFriends = new ArrayList<>();
             for (User groupMember : group.getMembers()) {
@@ -204,8 +191,7 @@ public class RestService {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/getFriends", method = RequestMethod.GET)
     public UsersResponse getFriends(@RequestParam("sessionId") String sessionId, @RequestParam("userId") int userId) {
-        EntityFactory entityFactory = new EntityFactory();
-        User user = entityFactory.getModelObject(userId, User.class);
+        User user = EntityFactory.getModelObject(userId, User.class);
         if (user == null) {
             throw new EntityNotFoundException("No user found for id or sessionId");
         }
@@ -222,7 +208,7 @@ public class RestService {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/getUsers", method = RequestMethod.GET)
     public UsersResponse getUsers() {
-        return new UsersResponse(new EntityFactory().getAllUsersAsPublicUserObjects());
+        return new UsersResponse(EntityFactory.getAllUsersAsPublicUserObjects());
     }
 
 }
