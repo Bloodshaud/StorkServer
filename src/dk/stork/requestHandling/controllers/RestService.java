@@ -118,6 +118,32 @@ public class RestService {
         }
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value = "/changeUser", method = RequestMethod.POST)
+    public ChangeUserRequest changeUser(@RequestBody String body) {
+        ChangeUserRequest req = gson.fromJson(body, ChangeUserRequest.class);
+        User user = EntityFactory.getModelObject(req.getUserId(), User.class);
+        boolean hasNewPassword = !req.getNewPassword().isEmpty() && !user.getPassword().equals(req.getNewPassword());
+        boolean passwordIsCorrect = user.getPassword().equals(req.getPassword());
+        boolean sessionsIsActive = user.getSessionId().equals(req.getSessionId());
+        boolean hasChanged = false;
+        if (hasNewPassword && passwordIsCorrect && sessionsIsActive) {
+            req.setSessionId(EntityFactory.login(user));
+            hasChanged = true;
+        }
+        boolean userNameHasChanged = !user.getName().equals(req.getName());
+        if (userNameHasChanged && passwordIsCorrect && sessionsIsActive) {
+            user.setName(req.getName());
+            hasChanged = true;
+        }
+        if (hasChanged) {
+            user.save();
+        }
+        req.setPassword(req.getNewPassword());
+        req.setNewPassword("");
+        return req;
+    }
+
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/getUser", method = RequestMethod.GET)
     public UserObject getUser(@RequestParam("sessionId") String sessionId, @RequestParam("userId") int userId) {
