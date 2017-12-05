@@ -17,16 +17,19 @@ import java.util.UUID;
  * @author Johannes Ernstsen
  */
 public class EntityFactory {
-    private static Session session;
+    private Session session;
 
+    public EntityFactory() {
+        initializeSession();
+    }
 
-    private static void initializeSession() {
+    private void initializeSession() {
         StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
         SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
         session = sessionFactory.openSession();
     }
 
-    public static <T> T getModelObject(int id, Class<T> clazz) {
+    public <T> T getModelObject(int id, Class<T> clazz) {
         if (session == null || !session.isOpen()) {
             initializeSession();
         }
@@ -38,7 +41,7 @@ public class EntityFactory {
         return result;
     }
 
-    public static <T extends EntityObject> List<T> getModelObjects(Class<T> clazz) {
+    public  <T extends EntityObject> List<T> getModelObjects(Class<T> clazz) {
         if (session == null || !session.isOpen()) {
             initializeSession();
         }
@@ -49,7 +52,7 @@ public class EntityFactory {
 
     }
 
-    static void save(Object object) {
+     void save(Object object) {
         if (session == null || !session.isOpen()) {
             initializeSession();
         }
@@ -60,7 +63,7 @@ public class EntityFactory {
     }
 
 
-    public static void destroy() {
+    public  void destroy() {
         if (session != null && session.isOpen()) {
             session.close();
         }
@@ -74,7 +77,7 @@ public class EntityFactory {
      * @param email email to search for
      * @return the user associated with the email
      */
-    public static User getUserFromEmail(String email) {
+    public User getUserFromEmail(String email) {
         List<User> users = getModelObjects(User.class);
         for (User user : users) {
             if (email.equalsIgnoreCase(user.getMail())) {
@@ -88,7 +91,7 @@ public class EntityFactory {
      * @param sessionId the sessionId for the user to be found
      * @return the {@link User} with the given sessionId
      */
-    public static User getUserFromSessionId(String sessionId) {
+    public User getUserFromSessionId(String sessionId) {
         if (sessionId != null && !sessionId.equals("")) {
             List<User> users = getModelObjects(User.class);
             for (User user : users) {
@@ -106,7 +109,7 @@ public class EntityFactory {
      * @param req request with information for creating the user
      * @return the user
      */
-    public static int userFromRegisterRequest(RegisterUserRequest req) {
+    public int userFromRegisterRequest(RegisterUserRequest req) {
         User user = new User();
         user.setName(req.getName());
         user.setMail(req.getMail());
@@ -121,7 +124,7 @@ public class EntityFactory {
      * @param ids ids of the users to retrieve
      * @return {@link List<User>}
      */
-    public static List<User> getUsers(List<Integer> ids) {
+    public List<User> getUsers(List<Integer> ids) {
         ArrayList<User> result = new ArrayList<>();
         List<User> users = getModelObjects(User.class);
         for (User user : users) {
@@ -135,7 +138,7 @@ public class EntityFactory {
     /**
      * @return {@link List<PublicUserObject> with {@link PublicUserObject} representing all {@link User}s in the database}
      */
-    public static List<PublicUserObject> getAllUsersAsPublicUserObjects() {
+    public List<PublicUserObject> getAllUsersAsPublicUserObjects() {
         List<User> users = getModelObjects(User.class);
         ArrayList<PublicUserObject> result = new ArrayList<>();
         for (User user : users) {
@@ -148,7 +151,7 @@ public class EntityFactory {
      * @param id userId of the user to be logged in
      * @return the sessionId for the user
      */
-    public static String login(int id) {
+    public String login(int id) {
         User user = getModelObject(id, User.class);
         return login(user);
     }
@@ -157,7 +160,7 @@ public class EntityFactory {
      * @param user user to be logged in
      * @return the sessionId for the user
      */
-    public static String login(User user) {
+    public String login(User user) {
         String sessionId = UUID.randomUUID().toString();
         user.setSessionId(sessionId);
         user.save();

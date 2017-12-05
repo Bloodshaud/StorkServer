@@ -5,6 +5,6 @@ package dk.stork.entities;
  */
 public class EntityObject {
     public void save() {
-        EntityFactory.save(this);
+        new EntityFactory().save(this);
     }
 }
