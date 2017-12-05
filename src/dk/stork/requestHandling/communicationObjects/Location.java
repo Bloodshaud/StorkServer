@@ -13,7 +13,7 @@ public class Location implements Serializable {
     public Location() {
     }
 
-    public Location(double longitude, double latitude, long timeStamp) {
+    public Location(double latitude, double longitude, long timeStamp) {
         this.longitude = longitude;
         this.latitude = latitude;
         this.timeStamp = timeStamp;
