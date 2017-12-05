@@ -12,7 +12,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
     StringBuilder sb = new StringBuilder();
-    List<User> users = EntityFactory.getModelObjects(User.class);
+    EntityFactory entityFactory = new EntityFactory();
+    List<User> users = entityFactory.getModelObjects(User.class);
     for (User user : users) {
         sb.append("<tr><td>")
                 .append(user.getId())
@@ -25,7 +26,7 @@
                 .append("</td></tr>");
     }
     StringBuilder sb2 = new StringBuilder();
-    List<Group> groups = EntityFactory.getModelObjects(Group.class);
+    List<Group> groups = entityFactory.getModelObjects(Group.class);
     for (Group group : groups) {
         sb2.append("<tr><td>")
                 .append(group.getId())
@@ -33,7 +34,6 @@
                 .append(group.toString().replace(":", "</td><td>"))
                 .append("</td></tr>");
     }
-    EntityFactory.destroy();
     String body = sb.toString();
     String body2 = sb2.toString();
 

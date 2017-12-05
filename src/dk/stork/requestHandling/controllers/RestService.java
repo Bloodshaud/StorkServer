@@ -186,8 +186,8 @@ public class RestService {
             List<FriendObject> includedFriends = new ArrayList<>();
             for (User groupMember : group.getMembers()) {
 
-                boolean notMe = user.equals(groupMember);
-                boolean hasValidLocation = groupMember.getLocation() != null && !groupMember.getLocation().equals("");
+                boolean notMe = !user.equals(groupMember);
+                boolean hasValidLocation = groupMember.getLocation() != null && !groupMember.getLocation().isEmpty();
 
                 if (!notMe && hasValidLocation) {
                     Location location = gson.fromJson(user.getLocation(), Location.class);
@@ -197,8 +197,7 @@ public class RestService {
             GroupObject groupObject = new GroupObject(group.getId(), group.getName(), includedFriends);
             groupObjects.add(groupObject);
         }
-        groupsMap.put("groups", groupObjects);
-        return new GroupsResponse(groupsMap);
+        return new GroupsResponse(groupObjects);
     }
 
     @ResponseStatus(HttpStatus.OK)
