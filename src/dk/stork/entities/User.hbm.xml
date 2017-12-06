@@ -44,9 +44,9 @@
             </many-to-many>
         </set>
 
-        <set name="ownedGroups" table="group_owners" inverse="true">
+        <set name="ownedGroups" table="users" inverse="true" fetch="select" lazy="true">
             <key>
-                <column name="userId" not-null="true"/>
+                <column name="ownedGroups" not-null="false"/>
             </key>
             <one-to-many class="dk.stork.entities.Group"/>
         </set>
