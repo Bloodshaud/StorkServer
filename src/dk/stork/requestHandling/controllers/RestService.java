@@ -134,12 +134,12 @@ public class RestService {
         User user = EntityFactory.getModelObject(req.getUserId(), User.class);
 
         String newPassword = req.getNewPassword();
-        String name = user.getName();
+        String name = req.getName();
 
         boolean hasNewPassword = newPassword != null && !newPassword.isEmpty() && !user.getPassword().equals(newPassword);
         boolean passwordIsCorrect = user.getPassword().equals(req.getPassword());
         boolean sessionsIsActive = user.getSessionId().equals(req.getSessionId());
-        boolean userNameHasChanged = name != null && !name.isEmpty() && !name.equals(req.getName());
+        boolean userNameHasChanged = name != null && !name.isEmpty() && !name.equals(user.getName());
 
         boolean hasChanged = false;
 
