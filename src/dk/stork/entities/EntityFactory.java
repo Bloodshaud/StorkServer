@@ -3,6 +3,7 @@ package dk.stork.entities;
 import dk.stork.exceptions.EntityNotFoundException;
 import dk.stork.requestHandling.communicationObjects.PublicUserObject;
 import dk.stork.requestHandling.communicationObjects.RegisterUserRequest;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -60,9 +61,15 @@ public class EntityFactory {
         } else if (!session.isOpen()) {
             session = sessionFactory.openSession();
         }
-        session.beginTransaction();
-        session.save(object);
-        session.getTransaction().commit();
+
+        try {
+            session.beginTransaction();
+            session.save(object);
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            System.out.println("Commit failed. Rolling back");
+            session.getTransaction().rollback();
+        }
 
     }
 
