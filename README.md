@@ -219,6 +219,43 @@ A****ctivates or Deactivates a group
 }
 ``` 
 
+### Change group 
+ Create or update group
+ 
+ | key    |                     value                    |
+ |:------:| :------------------------------------------- |
+ | Type   | POST                                         |
+ | Path   | /changeGroup                                 |
+ | Params | None                                         |
+ | Body   | Json object ChangeGroupRequest               |
+ | Code   | 201/403/404/500/                                 |
+ 
+ 
+#### Example body 1:
+```json
+{
+  "id": 0,
+  "name": "Min første gruppe",
+  "userId": 1,
+  "sessionId": "65a3ca2a-e2ee-4040-91a8-db8581a75e4c",
+  "add": [
+    2,
+    3,
+    4
+  ]
+}
+``` 
+#### Example body 2:
+```json
+{
+  "id": 3,
+  "userId": 1,
+  "sessionId": "65a3ca2a-e2ee-4040-91a8-db8581a75e4c",
+  "remove": [
+    4
+  ]
+}
+``` 
 
 ### Get User
 Gets the user information from the server
@@ -229,7 +266,7 @@ Gets the user information from the server
  | Path   | /getUser                               |
  | Params | sessionId, userId                      |
  | Resp   | Json object UserObject                 |
- | Code   | 200/404/500/                           |
+ | Code   | 200/403/404/500/                           |
  
  #### Example Response:
 ```json
