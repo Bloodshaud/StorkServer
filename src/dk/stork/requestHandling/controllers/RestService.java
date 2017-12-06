@@ -132,16 +132,22 @@ public class RestService {
         ChangeUserRequest req = gson.fromJson(body, ChangeUserRequest.class);
 
         User user = EntityFactory.getModelObject(req.getUserId(), User.class);
-        boolean hasNewPassword = !req.getNewPassword().isEmpty() && !user.getPassword().equals(req.getNewPassword());
+
+        String newPassword = req.getNewPassword();
+        String name = user.getName();
+
+        boolean hasNewPassword = newPassword != null && !newPassword.isEmpty() && !user.getPassword().equals(newPassword);
         boolean passwordIsCorrect = user.getPassword().equals(req.getPassword());
         boolean sessionsIsActive = user.getSessionId().equals(req.getSessionId());
+        boolean userNameHasChanged = name != null && !name.isEmpty() && !name.equals(req.getName());
+
         boolean hasChanged = false;
+
         if (hasNewPassword && passwordIsCorrect && sessionsIsActive) {
-            user.setPassword(req.getNewPassword());
+            user.setPassword(newPassword);
             req.setSessionId(EntityFactory.login(user));
             hasChanged = true;
         }
-        boolean userNameHasChanged = !user.getName().equals(req.getName());
         if (userNameHasChanged && passwordIsCorrect && sessionsIsActive) {
             user.setName(req.getName());
             hasChanged = true;
@@ -149,7 +155,7 @@ public class RestService {
         if (hasChanged) {
             user.save();
         }
-        req.setPassword(req.getNewPassword());
+        req.setPassword(newPassword);
         req.setNewPassword("");
         return req;
     }
