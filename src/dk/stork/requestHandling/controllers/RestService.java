@@ -137,6 +137,7 @@ public class RestService {
         boolean sessionsIsActive = user.getSessionId().equals(req.getSessionId());
         boolean hasChanged = false;
         if (hasNewPassword && passwordIsCorrect && sessionsIsActive) {
+            user.setPassword(req.getNewPassword());
             req.setSessionId(EntityFactory.login(user));
             hasChanged = true;
         }
@@ -151,6 +152,22 @@ public class RestService {
         req.setPassword(req.getNewPassword());
         req.setNewPassword("");
         return req;
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value = "/changeGroupActivation", method = RequestMethod.POST)
+    public void changeGroupActivation(@RequestBody String body) {
+        GroupChangeActivationRequest req = gson.fromJson(body, GroupChangeActivationRequest.class);
+        User user = EntityFactory.getModelObject(req.getUserId(), User.class);
+
+        if (user.getSessionId() == null || !user.getSessionId().equals(req.getSessionId())) {
+            throw new NotLoggedInException("No active session for user");
+        }
+
+        Set<Group> activeGroups = user.getActiveGroups();
+        activeGroups.addAll(EntityFactory.getGroups(req.getAdd()));
+        activeGroups.removeAll(EntityFactory.getGroups(req.getRemove()));
+        user.save();
     }
 
     @ResponseStatus(HttpStatus.OK)

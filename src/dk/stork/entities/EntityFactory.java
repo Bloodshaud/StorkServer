@@ -10,6 +10,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -133,6 +134,17 @@ public class EntityFactory {
         for (User user : users) {
             if (ids.contains(user.getId())) {
                 result.add(user);
+            }
+        }
+        return result;
+    }
+
+    public static List<Group> getGroups(List<Integer> ids) {
+        ArrayList<Group> result = new ArrayList<>();
+        List<Group> groups = getModelObjects(Group.class);
+        for (Group gro : groups) {
+            if (ids.contains(gro.getId())) {
+                result.add(gro);
             }
         }
         return result;
