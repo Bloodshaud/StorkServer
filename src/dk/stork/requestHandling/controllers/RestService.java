@@ -9,9 +9,7 @@ import dk.stork.requestHandling.communicationObjects.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Johannes Ernstsen
@@ -138,7 +136,12 @@ public class RestService {
 
         boolean hasNewPassword = newPassword != null && !newPassword.isEmpty() && !user.getPassword().equals(newPassword);
         boolean passwordIsCorrect = user.getPassword().equals(req.getPassword());
-        boolean sessionsIsActive = user.getSessionId().equals(req.getSessionId());
+        boolean sessionsIsActive = user.getSessionId() != null && user.getSessionId().equals(req.getSessionId());
+
+        if (!(passwordIsCorrect && sessionsIsActive)) {
+            throw new NotLoggedInException("Permission Denied");
+        }
+
         boolean userNameHasChanged = name != null && !name.isEmpty() && !name.equals(user.getName());
 
         boolean hasChanged = false;
@@ -174,6 +177,41 @@ public class RestService {
         activeGroups.addAll(EntityFactory.getGroups(req.getAdd()));
         activeGroups.removeAll(EntityFactory.getGroups(req.getRemove()));
         user.save();
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(value = "/changeGroup")
+    public void changeGroup(@RequestBody String body) {
+        ChangeGroupRequest req = gson.fromJson(body, ChangeGroupRequest.class);
+        User user = EntityFactory.getModelObject(req.getUserId(), User.class);
+
+        if (user.getSessionId() == null || !user.getSessionId().equals(req.getSessionId())) {
+            throw new NotLoggedInException("No active session for user");
+        }
+        Group group;
+        if (req.getId() == 0) {
+            group = new Group();
+            group.setOwner(user);
+            group.setMembers(new HashSet<User>(Collections.singletonList(user)));
+            group.setName(req.getName());
+        } else {
+            group = EntityFactory.getModelObject(req.getId(), Group.class);
+            if (group == null) {
+                throw new EntityNotFoundException("No group with given Id");
+            }
+        }
+
+        Set<User> members = group.getMembers();
+
+        if (req.getAdd() != null) {
+            members.addAll(EntityFactory.getUsers(req.getAdd()));
+        }
+
+        if (req.getRemove() != null) {
+            members.addAll(EntityFactory.getUsers(req.getRemove()));
+        }
+
+        group.save();
     }
 
     @ResponseStatus(HttpStatus.OK)

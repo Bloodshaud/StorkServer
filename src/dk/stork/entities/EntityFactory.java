@@ -60,7 +60,7 @@ public class EntityFactory {
             initializeSession();
         } else if (!session.isOpen()) {
             session = sessionFactory.openSession();
-        }
+}
 
         try {
             session.beginTransaction();
