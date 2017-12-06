@@ -18,15 +18,15 @@
     out.println("Users: " + EntityFactory.getModelObjects(User.class).size() + "<br/>");
     for (User user : users) {
         out.println("&emsp; <b>" + user.getName() + "</b><br/>");
-        out.println("&emsp; - friendCount: " + user.getFriends().size() + "<br/>");
-        out.println("&emsp; - groupsCount: " + user.getGroups().size() + "<br/>");
+        out.println("&emsp; - friendCount: " + (user.getFriends() != null ? user.getFriends().size() : "null") + "<br/>");
+        out.println("&emsp; - groupsCount: " + (user.getGroups() != null ? user.getGroups().size(): "null") + "<br/>");
         out.println("&emsp; - activatedGroupsCount: " + user.getActiveGroups().size() + "<br/>");
     }
     List<Group> groups = EntityFactory.getModelObjects(Group.class);
     out.println("Groups: " + EntityFactory.getModelObjects(Group.class).size() + "<br/>");
     for (Group group : groups) {
         out.println("&emsp; <b>" + group.getName() + "</b><br/>");
-        out.println("&emsp; - owner: " + group.getOwner().getName() + "<br/>");
+        out.println("&emsp; - owner: " + (group.getOwner() != null ? group.getOwner().getName(): "null") + "<br/>");
         out.println("&emsp; - memberCount: " + group.getMembers().size() + "<br/>");
     }
 %>
