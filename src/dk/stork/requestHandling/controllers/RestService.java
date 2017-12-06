@@ -146,12 +146,12 @@ public class RestService {
 
         boolean hasChanged = false;
 
-        if (hasNewPassword && passwordIsCorrect && sessionsIsActive) {
+        if (hasNewPassword) {
             user.setPassword(newPassword);
             req.setSessionId(EntityFactory.login(user));
             hasChanged = true;
         }
-        if (userNameHasChanged && passwordIsCorrect && sessionsIsActive) {
+        if (userNameHasChanged) {
             user.setName(req.getName());
             hasChanged = true;
         }
