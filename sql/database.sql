@@ -32,8 +32,9 @@ CREATE TABLE users_active_groups (
 
 DROP TABLE IF EXISTS groups;
 CREATE TABLE groups (
-  id   INT(11) PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(255)
+  id    INT(11) PRIMARY KEY AUTO_INCREMENT,
+  name  VARCHAR(255),
+  owner VARCHAR(255)
 );
 
 DROP TABLE IF EXISTS users_groups;
