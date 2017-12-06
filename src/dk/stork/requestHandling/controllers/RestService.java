@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Johannes Ernstsen
@@ -109,16 +110,20 @@ public class RestService {
         }
 
         List<User> friends = EntityFactory.getUsers(req.getFriends());
+        Set<User> existingFriendSet = user.getFriends();
         switch (req.getAction()) {
             case ADD:
-                user.addFriends(friends);
+                existingFriendSet.addAll(friends);
                 break;
             case REMOVE:
-                user.removeFriends(friends);
+                existingFriendSet.removeAll(friends);
                 break;
             default:
                 throw new RuntimeException("Malformed Body - no action found");
         }
+        user.setFriends(existingFriendSet);
+        user.save();
+
     }
 
     @ResponseStatus(HttpStatus.CREATED)

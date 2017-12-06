@@ -18,16 +18,19 @@ import java.util.UUID;
  */
 public class EntityFactory {
     private static Session session;
+    private static SessionFactory sessionFactory;
 
     private static void initializeSession() {
         StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
-        SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+        sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
         session = sessionFactory.openSession();
     }
 
     public static <T> T getModelObject(int id, Class<T> clazz) {
-        if (session == null || !session.isOpen()) {
+        if (session == null) {
             initializeSession();
+        } else if (!session.isOpen()) {
+            session = sessionFactory.openSession();
         }
         session.beginTransaction();
 
@@ -38,8 +41,10 @@ public class EntityFactory {
     }
 
     public static <T extends EntityObject> List<T> getModelObjects(Class<T> clazz) {
-        if (session == null || !session.isOpen()) {
+        if (session == null) {
             initializeSession();
+        } else if (!session.isOpen()) {
+            session = sessionFactory.openSession();
         }
         session.beginTransaction();
         List<T> result = session.createQuery("from clazz".replace("clazz", clazz.getSimpleName()), clazz).list();
@@ -49,8 +54,10 @@ public class EntityFactory {
     }
 
     static void save(Object object) {
-        if (session == null || !session.isOpen()) {
+        if (session == null) {
             initializeSession();
+        } else if (!session.isOpen()) {
+            session = sessionFactory.openSession();
         }
         session.beginTransaction();
         session.save(object);

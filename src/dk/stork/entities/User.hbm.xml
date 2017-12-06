@@ -12,14 +12,14 @@
         <id name="id" column="id">
             <generator class="native"/>
         </id>
-        <property name="name" column="name"/>
-        <property name="picture" column="picture"/>
-        <property name="mail" column="mail"/>
-        <property name="password" column="password"/>
-        <property name="location" column="location"/>
-        <property name="sessionId" column="sessionId"/>
+        <property name="name" column="name" lazy="true"/>
+        <property name="picture" column="picture" lazy="true"/>
+        <property name="mail" column="mail" lazy="true"/>
+        <property name="password" column="password" lazy="true"/>
+        <property name="location" column="location" lazy="true"/>
+        <property name="sessionId" column="sessionId" lazy="true"/>
 
-        <set name="friends" table="friends" inverse="true" lazy="true" fetch="select">
+        <set name="friends" table="friends" inverse="true" lazy="extra" fetch="select">
             <key>
                 <column name="userId" not-null="true"/>
             </key>
@@ -28,7 +28,7 @@
             </many-to-many>
         </set>
 
-        <set name="groups" table="users_groups" inverse="true" lazy="true" fetch="select">
+        <set name="groups" table="users_groups" inverse="false" lazy="extra" fetch="select">
             <key>
                 <column name="userId" not-null="true"/>
             </key>
