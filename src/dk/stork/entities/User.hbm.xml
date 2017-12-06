@@ -19,7 +19,7 @@
         <property name="location" column="location" lazy="true"/>
         <property name="sessionId" column="sessionId" lazy="true"/>
 
-        <set name="friends" table="friends" inverse="true" lazy="extra" fetch="select">
+        <set name="friends" table="friends" inverse="false" lazy="extra" fetch="select">
             <key>
                 <column name="userId" not-null="true"/>
             </key>
@@ -28,7 +28,7 @@
             </many-to-many>
         </set>
 
-        <set name="groups" table="users_groups" inverse="false" lazy="extra" fetch="select">
+        <set name="groups" table="users_groups" inverse="true" lazy="extra" fetch="select">
             <key>
                 <column name="userId" not-null="true"/>
             </key>
