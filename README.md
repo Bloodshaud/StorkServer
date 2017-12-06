@@ -191,6 +191,35 @@ Adds or removes a friend
 }
 ``` 
 
+### Change group activation status
+A****ctivates or Deactivates a group 
+ 
+ | key    |                     value                    |
+ |:------:| :------------------------------------------- |
+ | Type   | POST                                         |
+ | Path   | /changeGroupActivation                       |
+ | Params | None                                         |
+ | Body   | Json object GroupChangeActivationRequest     |
+ | Code   | 201/404/500/                                 |
+ 
+ 
+#### Example body:
+```json
+{
+  "userId": 1,
+  "sessionId": "f373e354-ab5f-41bc-8905-14e4dfd5f9ef",
+  "add": [
+    1,
+    2
+  ],
+  "remove": [
+    2,
+    3
+  ]
+}
+``` 
+
+
 ### Get User
 Gets the user information from the server
  
