@@ -27,7 +27,7 @@
             </many-to-many>
         </set>
 
-        <set name="groups" table="users_groups" inverse="true" lazy="extra" fetch="select">
+        <set name="groups" table="users_groups" inverse="false" lazy="extra" fetch="select">
             <key>
                 <column name="userId" not-null="true"/>
             </key>

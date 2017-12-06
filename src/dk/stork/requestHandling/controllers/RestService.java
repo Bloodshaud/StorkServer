@@ -212,6 +212,7 @@ public class RestService {
         }
 
         group.save();
+        EntityFactory.refreshGroupMembers(group);
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -242,7 +243,7 @@ public class RestService {
 
                 boolean notMe = !user.equals(groupMember);
                 boolean hasValidLocation = groupMember.getLocation() != null && !groupMember.getLocation().isEmpty();
-                boolean hasGroupAsActive = groupMember.getActiveGroups().contains(group);
+                boolean hasGroupAsActive = groupMember.getActiveGroups() != null && groupMember.getActiveGroups().contains(group);
                 if (notMe && hasValidLocation && hasGroupAsActive) {
                     Location location = gson.fromJson(groupMember.getLocation(), Location.class);
                     includedFriends.add(new FriendObject(groupMember.getId(), groupMember.getName(), location));

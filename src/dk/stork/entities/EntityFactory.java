@@ -1,5 +1,6 @@
 package dk.stork.entities;
 
+import com.sun.istack.internal.NotNull;
 import dk.stork.exceptions.EntityNotFoundException;
 import dk.stork.requestHandling.communicationObjects.PublicUserObject;
 import dk.stork.requestHandling.communicationObjects.RegisterUserRequest;
@@ -11,7 +12,6 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,11 +60,28 @@ public class EntityFactory {
             initializeSession();
         } else if (!session.isOpen()) {
             session = sessionFactory.openSession();
-}
+        }
 
         try {
             session.beginTransaction();
             session.save(object);
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            System.out.println("Commit failed. Rolling back");
+            session.getTransaction().rollback();
+        }
+
+    }
+
+    static void refresh(Object object) {
+        if (session == null) {
+            initializeSession();
+        } else if (!session.isOpen()) {
+            session = sessionFactory.openSession();
+        }
+        try {
+            session.beginTransaction();
+            session.refresh(object);
             session.getTransaction().commit();
         } catch (HibernateException e) {
             System.out.println("Commit failed. Rolling back");
@@ -187,5 +204,16 @@ public class EntityFactory {
         user.setSessionId(sessionId);
         user.save();
         return sessionId;
+    }
+
+    /**
+     * refreshes all members of given group;
+     *
+     * @param group group for which members should be refreshed
+     */
+    public static void refreshGroupMembers(@NotNull Group group) {
+        for (User user : group.getMembers()) {
+            refresh(user);
+        }
     }
 }
