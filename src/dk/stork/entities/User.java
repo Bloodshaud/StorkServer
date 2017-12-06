@@ -15,12 +15,12 @@ import java.util.Set;
 public class User extends EntityObject {
     private int id;
     private String name;
-    private String picture;
     private String mail;
     private String password;
     private String location;
     private Set<Group> groups;
     private Set<Group> activeGroups;
+    private Set<Group> ownedGroups;
     private Set<User> friends;
     private String sessionId;
 
@@ -29,14 +29,22 @@ public class User extends EntityObject {
     }
 
     @SuppressWarnings("unused")
-    public User(int id, String picture, String mail, String password, String location, Set<Group> groups, Set<Group> activeGroups, Set<User> friends, String sessionId) {
+    public User(int id,
+                String mail,
+                String password,
+                String location,
+                Set<Group> groups,
+                Set<Group> activeGroups,
+                Set<Group> ownedGroups,
+                Set<User> friends,
+                String sessionId) {
         this.id = id;
-        this.picture = picture;
         this.mail = mail;
         this.password = password;
         this.location = location;
         this.groups = groups;
         this.activeGroups = activeGroups;
+        this.ownedGroups = ownedGroups;
         this.friends = friends;
         this.sessionId = sessionId;
     }
@@ -59,16 +67,6 @@ public class User extends EntityObject {
     @SuppressWarnings("unused")
     public void setId(int id) {
         this.id = id;
-    }
-
-    @SuppressWarnings("unused")
-    public String getPicture() {
-        return picture;
-    }
-
-    @SuppressWarnings("unused")
-    public void setPicture(String picture) {
-        this.picture = picture;
     }
 
     @SuppressWarnings("unused")
@@ -119,6 +117,14 @@ public class User extends EntityObject {
     @SuppressWarnings("unused")
     public void setActiveGroups(Set<Group> activeGroups) {
         this.activeGroups = activeGroups;
+    }
+
+    public Set<Group> getOwnedGroups() {
+        return ownedGroups;
+    }
+
+    public void setOwnedGroups(Set<Group> ownedGroups) {
+        this.ownedGroups = ownedGroups;
     }
 
     @SuppressWarnings("unused")

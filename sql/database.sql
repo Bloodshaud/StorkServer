@@ -10,13 +10,13 @@ USE stork;
 
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
-  id        INT(11) PRIMARY KEY AUTO_INCREMENT,
-  name      VARCHAR(255) NOT NULL,
-  picture   VARCHAR(255),
-  mail      VARCHAR(255) NOT NULL,
-  password  VARCHAR(255) NOT NULL,
-  location  VARCHAR(255),
-  sessionId VARCHAR(255)
+  id          INT(11) PRIMARY KEY AUTO_INCREMENT,
+  name        VARCHAR(255) NOT NULL,
+  mail        VARCHAR(255) NOT NULL,
+  password    VARCHAR(255) NOT NULL,
+  location    VARCHAR(255),
+  sessionId   VARCHAR(255),
+  ownedGroups VARCHAR(255)
 );
 
 DROP TABLE IF EXISTS friends;
@@ -41,4 +41,10 @@ DROP TABLE IF EXISTS users_groups;
 CREATE TABLE users_groups (
   userId  INT(11),
   groupId INT(11)
+);
+
+DROP TABLE IF EXISTS group_owners;
+CREATE TABLE group_owners (
+  groupId INT(11),
+  userId  INT(11)
 );

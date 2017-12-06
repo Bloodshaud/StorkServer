@@ -13,7 +13,6 @@
             <generator class="native"/>
         </id>
         <property name="name" column="name" lazy="true"/>
-        <property name="picture" column="picture" lazy="true"/>
         <property name="mail" column="mail" lazy="true"/>
         <property name="password" column="password" lazy="true"/>
         <property name="location" column="location" lazy="true"/>
@@ -43,6 +42,13 @@
             <many-to-many entity-name="dk.stork.entities.Group">
                 <column name="groupId" not-null="true"/>
             </many-to-many>
+        </set>
+
+        <set name="ownedGroups" table="group_owners" inverse="true">
+            <key>
+                <column name="userId" not-null="true"/>
+            </key>
+            <one-to-many class="dk.stork.entities.Group"/>
         </set>
     </class>
 </hibernate-mapping>

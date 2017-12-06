@@ -13,6 +13,8 @@
             <generator class="native"/>
         </id>
         <property name="name" column="name"/>
+        <many-to-one name="owner" column="owner" class="User"/>
+
 
         <set name="members" table="users_groups"
              inverse="false" lazy="true" fetch="select" cascade="all">
