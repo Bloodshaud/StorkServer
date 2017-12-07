@@ -162,7 +162,7 @@ public class RestService {
         if (hasChanged) {
             user.save();
         }
-        req.setPassword(newPassword);
+        req.setPassword(newPassword);   
         req.setNewPassword("");
         return req;
     }
@@ -178,8 +178,14 @@ public class RestService {
         }
 
         Set<Group> activeGroups = user.getActiveGroups();
-        activeGroups.addAll(EntityFactory.getGroups(req.getAdd()));
-        activeGroups.removeAll(EntityFactory.getGroups(req.getRemove()));
+
+        if (req.getAdd() != null) {
+            activeGroups.addAll(EntityFactory.getGroups(req.getAdd()));
+        }
+
+        if (req.getRemove() != null) {
+            activeGroups.removeAll(EntityFactory.getGroups(req.getRemove()));
+        }
         user.save();
     }
 
