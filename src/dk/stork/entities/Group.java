@@ -7,7 +7,8 @@ import java.util.Set;
  */
 public class Group extends EntityObject {
     private int id;
-    private User owner;
+    private int owner;
+    private int active;
     private String name;
     private Set<User> members;
 
@@ -16,9 +17,10 @@ public class Group extends EntityObject {
     }
 
     @SuppressWarnings("unused")
-    public Group(int id, User owner, String name, Set<User> members) {
+    public Group(int id, int owner, int active, String name, Set<User> members) {
         this.id = id;
         this.owner = owner;
+        this.active = active;
         this.name = name;
         this.members = members;
     }
@@ -34,12 +36,12 @@ public class Group extends EntityObject {
     }
 
     @SuppressWarnings("unused")
-    public User getOwner() {
+    public int getOwner() {
         return owner;
     }
 
     @SuppressWarnings("unused")
-    public void setOwner(User owner) {
+    public void setOwner(int owner) {
         this.owner = owner;
     }
 
@@ -61,6 +63,14 @@ public class Group extends EntityObject {
     @SuppressWarnings("unused")
     public void setMembers(Set<User> members) {
         this.members = members;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
     }
 
     @Override

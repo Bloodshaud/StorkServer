@@ -13,7 +13,9 @@
             <generator class="native"/>
         </id>
         <property name="name" column="name" not-null="true"/>
-        <many-to-one name="owner" column="owner" class="User" cascade="all" not-null="true"/>
+        <!--<many-to-one name="owner" column="owner" class="User" cascade="all" not-null="true"/>-->
+        <property name="owner" column="owner" not-null="true"/>
+        <property name="active" column="active" not-null="true"/>
 
 
         <set name="members" table="users_groups"

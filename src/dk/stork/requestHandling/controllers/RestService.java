@@ -202,7 +202,7 @@ public class RestService {
         Group group;
         if (req.getId() == 0) {
             group = new Group();
-            group.setOwner(user);
+            group.setOwner(req.getUserId());
             group.setMembers(new HashSet<User>(Collections.singletonList(user)));
             group.setName(req.getName());
             affectedUsers.add(user);
@@ -211,7 +211,7 @@ public class RestService {
             if (group == null) {
                 throw new EntityNotFoundException("No group with given Id");
             }
-            if (!group.getOwner().equals(user)) {
+            if (group.getOwner() != user.getId()) {
                 throw new NotLoggedInException("Not group owner");
             }
         }
@@ -270,7 +270,7 @@ public class RestService {
                     includedFriends.add(new FriendObject(groupMember.getId(), groupMember.getName(), shouldIncludeLocation ? location : null));
                 }
             }
-            GroupObject groupObject = new GroupObject(group.getId(), group.getName(), includedFriends, group.getOwner().getId());
+            GroupObject groupObject = new GroupObject(group.getId(), group.getName(), includedFriends, group.getOwner());
             groupObjects.add(groupObject);
         }
         return new GroupsResponse(groupObjects);
