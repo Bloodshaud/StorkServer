@@ -263,7 +263,7 @@ public class RestService {
                     includedFriends.add(new FriendObject(groupMember.getId(), groupMember.getName(), location));
                 }
             }
-            GroupObject groupObject = new GroupObject(group.getId(), group.getName(), includedFriends);
+            GroupObject groupObject = new GroupObject(group.getId(), group.getName(), includedFriends, group.getOwner().getId());
             groupObjects.add(groupObject);
         }
         return new GroupsResponse(groupObjects);

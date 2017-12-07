@@ -3,17 +3,19 @@ package dk.stork.requestHandling.communicationObjects;
 import java.util.List;
 
 /**
- * @author morten
+ * @author morten, johannes
  */
 public class GroupObject {
     private int id;
     private String name;
     private List<FriendObject> friends;
+    private int owner;
 
-    public GroupObject(int id, String name, List<FriendObject> friends) {
+    public GroupObject(int id, String name, List<FriendObject> friends, int owner) {
         this.id = id;
         this.name = name;
         this.friends = friends;
+        this.owner = owner;
     }
 
     public int getId() {
@@ -38,5 +40,13 @@ public class GroupObject {
 
     public void setFriends(List<FriendObject> friends) {
         this.friends = friends;
+    }
+
+    public int getOwner() {
+        return owner;
+    }
+
+    public void setOwner(int owner) {
+        this.owner = owner;
     }
 }
