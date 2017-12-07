@@ -258,9 +258,10 @@ public class RestService {
                 boolean notMe = !user.equals(groupMember);
                 boolean hasValidLocation = groupMember.getLocation() != null && !groupMember.getLocation().isEmpty();
                 boolean hasGroupAsActive = groupMember.getActiveGroups() != null && groupMember.getActiveGroups().contains(group);
-                if (notMe && hasValidLocation && hasGroupAsActive) {
+                boolean shouldIncludeLocation = hasValidLocation && hasGroupAsActive;
+                if (notMe) {
                     Location location = gson.fromJson(groupMember.getLocation(), Location.class);
-                    includedFriends.add(new FriendObject(groupMember.getId(), groupMember.getName(), location));
+                    includedFriends.add(new FriendObject(groupMember.getId(), groupMember.getName(), shouldIncludeLocation ? location : null));
                 }
             }
             GroupObject groupObject = new GroupObject(group.getId(), group.getName(), includedFriends, group.getOwner().getId());
