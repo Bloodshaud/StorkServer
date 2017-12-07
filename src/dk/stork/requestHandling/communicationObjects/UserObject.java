@@ -1,6 +1,8 @@
 package dk.stork.requestHandling.communicationObjects;
 
-import com.google.gson.Gson;
+import dk.stork.entities.Group;
+
+import java.util.List;
 
 /**
  * @author Johannes Ernstsen
@@ -10,21 +12,19 @@ public class UserObject {
     private String name;
     private String mail;
     private String sessionId;
+    private List<Integer> activeGroups;
 
     @SuppressWarnings("unused")
     public UserObject() {
     }
 
     @SuppressWarnings("unused")
-    public UserObject(int userId, String name, String mail, String sessionId) {
+    public UserObject(int userId, String name, String mail, String sessionId, List<Integer> activeGroups) {
         this.userId = userId;
         this.name = name;
         this.mail = mail;
         this.sessionId = sessionId;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new Gson().toJson(new UserObject(1, "Johannes Ernstsen", "Ernstsen.johannes@gmail.com", "e7d35d2d-9521-4aa9-a6c5-dc4b08aaf638")));
+        this.activeGroups = activeGroups;
     }
 
     @SuppressWarnings("unused")
@@ -65,5 +65,13 @@ public class UserObject {
     @SuppressWarnings("unused")
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public List<Integer> getActiveGroups() {
+        return activeGroups;
+    }
+
+    public void setActiveGroups(List<Integer> activeGroups) {
+        this.activeGroups = activeGroups;
     }
 }

@@ -35,7 +35,7 @@
                 <column name="groupId" not-null="true"/>
             </many-to-many>
         </set>
-        <set name="activeGroups" table="users_active_groups" inverse="true" lazy="extra" fetch="select">
+        <set name="activeGroups" table="users_active_groups" inverse="true">
             <key>
                 <column name="userId" not-null="true"/>
             </key>

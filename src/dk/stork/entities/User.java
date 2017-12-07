@@ -3,6 +3,7 @@ package dk.stork.entities;
 import dk.stork.requestHandling.communicationObjects.PublicUserObject;
 import dk.stork.requestHandling.communicationObjects.UserObject;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -148,7 +149,11 @@ public class User extends EntityObject {
     }
 
     public UserObject createUserObject() {
-        return new UserObject(id, name, mail, sessionId);
+        ArrayList<Integer> activeGroupsList = new ArrayList<>();
+        for (Group activeGroup : activeGroups) {
+            activeGroupsList.add(activeGroup.getId());
+        }
+        return new UserObject(id, name, mail, sessionId, activeGroupsList);
     }
 
     public PublicUserObject createFriendObject() {
