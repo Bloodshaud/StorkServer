@@ -63,6 +63,10 @@ public class RestService {
     public RegisterUserRequest registerUser(@RequestBody String registerUserString) {
         RegisterUserRequest req = gson.fromJson(registerUserString, RegisterUserRequest.class);
 
+        if (EntityFactory.getUserFromEmail(req.getMail()) != null) {
+            throw new NotLoggedInException("User already exists");
+        }
+
         int id = EntityFactory.userFromRegisterRequest(req);
 
         String sessionId = EntityFactory.login(id);
@@ -188,31 +192,41 @@ public class RestService {
         if (user.getSessionId() == null || !user.getSessionId().equals(req.getSessionId())) {
             throw new NotLoggedInException("No active session for user");
         }
+        ArrayList<User> affectedUsers = new ArrayList<>();
         Group group;
         if (req.getId() == 0) {
             group = new Group();
             group.setOwner(user);
             group.setMembers(new HashSet<User>(Collections.singletonList(user)));
             group.setName(req.getName());
+            affectedUsers.add(user);
         } else {
             group = EntityFactory.getModelObject(req.getId(), Group.class);
             if (group == null) {
                 throw new EntityNotFoundException("No group with given Id");
             }
+            if (!group.getOwner().equals(user)) {
+                throw new NotLoggedInException("Not group owner");
+            }
         }
 
         Set<User> members = group.getMembers();
 
+
         if (req.getAdd() != null) {
-            members.addAll(EntityFactory.getUsers(req.getAdd()));
+            List<User> usersToAdd = EntityFactory.getUsers(req.getAdd());
+            members.addAll(usersToAdd);
+            affectedUsers.addAll(usersToAdd);
         }
 
         if (req.getRemove() != null) {
-            members.addAll(EntityFactory.getUsers(req.getRemove()));
+            List<User> usersToRemove = EntityFactory.getUsers(req.getRemove());
+            members.removeAll(usersToRemove);
+            affectedUsers.addAll(usersToRemove);
         }
 
         group.save();
-        EntityFactory.refreshGroupMembers(group);
+        EntityFactory.refreshUsers(affectedUsers);
     }
 
     @ResponseStatus(HttpStatus.OK)

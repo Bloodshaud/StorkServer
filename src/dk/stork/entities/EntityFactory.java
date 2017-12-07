@@ -209,10 +209,10 @@ public class EntityFactory {
     /**
      * refreshes all members of given group;
      *
-     * @param group group for which members should be refreshed
+     * @param users the list of users to be refreshed;
      */
-    public static void refreshGroupMembers(@NotNull Group group) {
-        for (User user : group.getMembers()) {
+    public static void refreshUsers(@NotNull ArrayList<User> users) {
+        for (User user : users) {
             refresh(user);
         }
     }
