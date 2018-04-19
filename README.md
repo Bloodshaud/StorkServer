@@ -1,7 +1,13 @@
 # StorkServer
-Webserver for the dIntDes Stork project
+## Collaborators:
+Johannes Ernstsen, Mathias Søby Jensen & Morten Erfurt Hansen
+## Intent
+This is a simple webserver built for a project for the course Interactive Systems which is a part of Computer Science at The University of Aarhus.
 
-## RULES
+The server keeps track of who has given who access to tracking them, and is thereby
+able to give this data to the client(which is found [here](https://github.com/Bloodshaud/StorkApp) ) 
+
+## REPO RULES
 * Remember commiting after EACH change as to maintain a good gitlog
     * Provide good and descriptive commit messages
 * Remember to update Trello board with new tasks as you go
